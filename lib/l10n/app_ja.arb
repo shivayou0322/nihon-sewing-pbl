@@ -1,0 +1,12 @@
+{
+  "@@locale": "ja",
+  "appTitle": "工程確認アプリ",
+  "loginTitle": "パスワードを入力してください",
+  "loginButton": "ログイン",
+  "loginError": "パスワードが正しくありません",
+  "searchTitle": "伝票番号を入力",
+  "searchHint": "伝票番号",
+  "searchButton": "検索",
+  "notFound": "該当する伝票番号が見つかりません",
+  "backButton": "戻る"
+}

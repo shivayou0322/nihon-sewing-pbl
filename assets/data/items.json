@@ -1,0 +1,22 @@
+{
+  "01": {
+    "image": "assets/images/01.png",
+    "description": "標準仕様：ボタン3つ、内ポケットあり"
+  },
+  "02": {
+    "image": "assets/images/02.png",
+    "description": "ダブルブレスト：ボタン6つ、フラップポケット"
+  },
+  "03": {
+    "image": "assets/images/03.png",
+    "description": "左ポケットあり、ボタンなし"
+  },
+  "04": {
+    "image": "assets/images/04.png",
+    "description": "スリーピース：ベスト付き、ノッチドラペル"
+  },
+  "05": {
+    "image": "assets/images/05.png",
+    "description": "カスタム裏地、名前刺繍入り"
+  }
+}
