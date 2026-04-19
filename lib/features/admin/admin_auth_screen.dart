@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_constants.dart';
 import '../../data/services/settings_service.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class AdminAuthScreen extends StatefulWidget {
+  const AdminAuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<AdminAuthScreen> createState() => _AdminAuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
-  String _inputPassword = '';
+class _AdminAuthScreenState extends State<AdminAuthScreen> {
+  String _password = '';
+  String _adminCode = '';
+  bool _isAdminCodeStep = false;
   String? _errorMessage;
   final SettingsService _settings = SettingsService();
   bool _isLoading = true;
@@ -27,31 +29,59 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _onKeyTap(String value) {
-    if (_inputPassword.length < 8) {
-      setState(() {
-        _inputPassword += value;
-        _errorMessage = null;
-      });
-    }
+    setState(() {
+      if (_isAdminCodeStep) {
+        if (_adminCode.length < 8) {
+          _adminCode += value;
+          _errorMessage = null;
+        }
+      } else {
+        if (_password.length < 8) {
+          _password += value;
+          _errorMessage = null;
+        }
+      }
+    });
   }
 
   void _onDelete() {
-    if (_inputPassword.isNotEmpty) {
-      setState(() {
-        _inputPassword = _inputPassword.substring(0, _inputPassword.length - 1);
-        _errorMessage = null;
-      });
-    }
+    setState(() {
+      if (_isAdminCodeStep) {
+        if (_adminCode.isNotEmpty) {
+          _adminCode = _adminCode.substring(0, _adminCode.length - 1);
+          _errorMessage = null;
+        }
+      } else {
+        if (_password.isNotEmpty) {
+          _password = _password.substring(0, _password.length - 1);
+          _errorMessage = null;
+        }
+      }
+    });
   }
 
-  void _onLogin() {
-    if (_inputPassword == _settings.getAppPassword()) {
-      Navigator.pushReplacementNamed(context, '/search');
+  void _onNext() {
+    if (!_isAdminCodeStep) {
+      if (_password == _settings.getAppPassword()) {
+        setState(() {
+          _isAdminCodeStep = true;
+          _errorMessage = null;
+        });
+      } else {
+        setState(() {
+          _errorMessage = 'パスワードが正しくありません';
+          _password = '';
+        });
+      }
     } else {
-      setState(() {
-        _errorMessage = 'パスワードが正しくありません';
-        _inputPassword = '';
-      });
+      if (_adminCode == _settings.getAdminCode()) {
+        Navigator.pushReplacementNamed(context, '/admin-menu');
+      } else {
+        setState(() {
+          _errorMessage = '管理者コードが正しくありません';
+          _adminCode = '';
+        });
+      }
     }
   }
 
@@ -61,8 +91,30 @@ class _AuthScreenState extends State<AuthScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    final currentInput = _isAdminCodeStep ? _adminCode : _password;
+    final title = _isAdminCodeStep ? '管理者コードを入力' : 'パスワードを入力';
+    final stepText = _isAdminCodeStep ? 'ステップ 2/2' : 'ステップ 1/2';
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        title: const Text('管理者ログイン'),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (_isAdminCodeStep) {
+              setState(() {
+                _isAdminCodeStep = false;
+                _adminCode = '';
+                _errorMessage = null;
+              });
+            } else {
+              Navigator.pop(context);
+            }
+          },
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -70,14 +122,22 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  stepText,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+                ),
+                const SizedBox(height: 8),
                 Icon(
-                  Icons.lock_outline,
+                  _isAdminCodeStep ? Icons.admin_panel_settings : Icons.lock_outline,
                   size: 64,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'パスワードを入力してください',
+                  title,
                   style: Theme.of(context).textTheme.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -97,7 +157,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                   child: Text(
-                    _inputPassword.isEmpty ? '' : '● ' * _inputPassword.length,
+                    currentInput.isEmpty ? '' : '● ' * currentInput.length,
                     style: const TextStyle(fontSize: 32, letterSpacing: 8),
                     textAlign: TextAlign.center,
                   ),
@@ -121,26 +181,13 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _inputPassword.isNotEmpty ? _onLogin : null,
+                      onPressed: currentInput.isNotEmpty ? _onNext : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Theme.of(context).colorScheme.onPrimary,
                         padding: const EdgeInsets.symmetric(vertical: 20),
                       ),
-                      child: const Text('ログイン'),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/admin-auth');
-                  },
-                  child: Text(
-                    '管理者ログイン',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                      child: Text(_isAdminCodeStep ? 'ログイン' : '次へ'),
                     ),
                   ),
                 ),
