@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:nihon_sewing_pbl/l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../data/services/export_import_service.dart';
+import '../../data/services/settings_service.dart';
 
 class AdminMenuScreen extends StatefulWidget {
   const AdminMenuScreen({super.key});
@@ -13,6 +15,7 @@ class AdminMenuScreen extends StatefulWidget {
 
 class _AdminMenuScreenState extends State<AdminMenuScreen> {
   final ExportImportService _exportImport = ExportImportService();
+  final SettingsService _settings = SettingsService();
   bool _isProcessing = false;
 
   @override
@@ -23,7 +26,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
 
   Future<void> _onExport() async {
     if (kIsWeb) {
-      _showMessage('Web版ではエクスポートはサポートされていません');
+      _showMessage(AppLocalizations.of(context)!.webNotSupported);
       return;
     }
 
@@ -31,41 +34,38 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
     try {
       final zipPath = await _exportImport.exportData();
       if (mounted) {
-        // 共有ダイアログを表示（AirDrop、メール、ファイル保存等）
         await SharePlus.instance.share(
           ShareParams(files: [XFile(zipPath)]),
         );
-        _showMessage('エクスポートが完了しました');
+        _showMessage(AppLocalizations.of(context)!.exportComplete);
       }
     } catch (e) {
-      _showMessage('エクスポートに失敗しました: $e');
+      _showMessage('${AppLocalizations.of(context)!.exportFailed}: $e');
     } finally {
       if (mounted) setState(() => _isProcessing = false);
     }
   }
 
   Future<void> _onImport() async {
+    final l10n = AppLocalizations.of(context)!;
     if (kIsWeb) {
-      _showMessage('Web版ではインポートはサポートされていません');
+      _showMessage(l10n.webNotSupported);
       return;
     }
 
-    // 確認ダイアログ
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('インポート確認'),
-        content: const Text(
-          'インポートすると、同じ伝票番号のデータは上書きされます。\n続けますか？',
-        ),
+        title: Text(l10n.importConfirmTitle),
+        content: Text(l10n.importConfirmMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('キャンセル'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('インポート'),
+            child: Text(l10n.dataImport),
           ),
         ],
       ),
@@ -83,14 +83,53 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
       if (result != null && result.files.single.path != null) {
         final count = await _exportImport.importData(result.files.single.path!);
         if (mounted) {
-          _showMessage('$count件のデータをインポートしました');
+          _showMessage(l10n.importComplete(count));
         }
       }
     } catch (e) {
-      _showMessage('インポートに失敗しました: $e');
+      _showMessage('${l10n.importFailed}: $e');
     } finally {
       if (mounted) setState(() => _isProcessing = false);
     }
+  }
+
+  Future<void> _showLanguageDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+    final currentLocale = _settings.getLocale().languageCode;
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.languageSettings),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(
+                currentLocale == 'ja' ? Icons.radio_button_checked : Icons.radio_button_off,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              title: Text(l10n.japanese, style: const TextStyle(fontSize: 20)),
+              onTap: () async {
+                await _settings.setLocale('ja');
+                if (mounted) Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                currentLocale == 'my' ? Icons.radio_button_checked : Icons.radio_button_off,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              title: Text(l10n.myanmar, style: const TextStyle(fontSize: 20)),
+              onTap: () async {
+                await _settings.setLocale('my');
+                if (mounted) Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _showMessage(String message) {
@@ -101,22 +140,24 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text('管理メニュー'),
+        title: Text(l10n.adminMenu),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/auth');
           },
-          tooltip: 'ログアウト',
+          tooltip: l10n.logout,
         ),
       ),
       body: SafeArea(
         child: Center(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(32),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +171,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                 _buildMenuButton(
                   context,
                   icon: Icons.list_alt,
-                  label: '伝票データ管理',
+                  label: l10n.itemManagement,
                   onPressed: () {
                     Navigator.pushNamed(context, '/admin-items');
                   },
@@ -139,7 +180,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                 _buildMenuButton(
                   context,
                   icon: Icons.key,
-                  label: 'パスワード変更',
+                  label: l10n.passwordChange,
                   onPressed: () {
                     Navigator.pushNamed(context, '/admin-password');
                   },
@@ -148,21 +189,28 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                 _buildMenuButton(
                   context,
                   icon: Icons.upload_file,
-                  label: 'データエクスポート',
+                  label: l10n.dataExport,
                   onPressed: _isProcessing ? null : _onExport,
                 ),
                 const SizedBox(height: 16),
                 _buildMenuButton(
                   context,
                   icon: Icons.download,
-                  label: 'データインポート',
+                  label: l10n.dataImport,
                   onPressed: _isProcessing ? null : _onImport,
+                ),
+                const SizedBox(height: 16),
+                _buildMenuButton(
+                  context,
+                  icon: Icons.language,
+                  label: l10n.languageSettings,
+                  onPressed: _showLanguageDialog,
                 ),
                 if (_isProcessing) ...[
                   const SizedBox(height: 24),
                   const CircularProgressIndicator(),
                   const SizedBox(height: 8),
-                  const Text('処理中...', style: TextStyle(fontSize: 18)),
+                  Text(l10n.processing, style: const TextStyle(fontSize: 18)),
                 ],
               ],
             ),

@@ -1,8 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../../core/constants/app_constants.dart';
 
-class SettingsService {
+class SettingsService extends ChangeNotifier {
   late Box _box;
+  static final SettingsService _instance = SettingsService._internal();
+
+  factory SettingsService() => _instance;
+  SettingsService._internal();
 
   Future<void> init() async {
     _box = await Hive.openBox(AppConstants.settingsBox);
@@ -22,5 +27,15 @@ class SettingsService {
 
   Future<void> setAdminCode(String code) async {
     await _box.put(AppConstants.adminCodeKey, code);
+  }
+
+  Locale getLocale() {
+    final code = _box.get('locale', defaultValue: 'ja');
+    return Locale(code);
+  }
+
+  Future<void> setLocale(String languageCode) async {
+    await _box.put('locale', languageCode);
+    notifyListeners();
   }
 }

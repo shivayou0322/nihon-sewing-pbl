@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nihon_sewing_pbl/l10n/app_localizations.dart';
 import '../../core/constants/app_constants.dart';
 import '../../data/repositories/item_repository.dart';
 
@@ -40,6 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> _onSearch() async {
+    final l10n = AppLocalizations.of(context)!;
     final item = await _repository.findByTicketNumber(_ticketNumber);
     if (item != null) {
       if (mounted) {
@@ -47,17 +49,19 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     } else {
       setState(() {
-        _errorMessage = '該当する伝票番号が見つかりません';
+        _errorMessage = l10n.notFound;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text('伝票番号を入力'),
+        title: Text(l10n.searchTitle),
         centerTitle: true,
         actions: [
           IconButton(
@@ -65,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/auth');
             },
-            tooltip: 'ログアウト',
+            tooltip: l10n.logout,
           ),
         ],
       ),
@@ -91,7 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   child: Text(
-                    _ticketNumber.isEmpty ? '伝票番号' : _ticketNumber,
+                    _ticketNumber.isEmpty ? l10n.searchHint : _ticketNumber,
                     style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
@@ -114,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ],
                 const SizedBox(height: 32),
-                _buildKeypad(),
+                _buildKeypad(context),
                 const SizedBox(height: 24),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 400),
@@ -123,7 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: ElevatedButton.icon(
                       onPressed: _ticketNumber.isNotEmpty ? _onSearch : null,
                       icon: const Icon(Icons.search, size: 28),
-                      label: const Text('検索'),
+                      label: Text(l10n.searchButton),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -141,7 +145,9 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildKeypad() {
+  Widget _buildKeypad(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
       child: Column(
@@ -176,7 +182,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Text('C', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    child: Text(l10n.clearButton, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),

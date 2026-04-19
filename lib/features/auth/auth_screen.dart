@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nihon_sewing_pbl/l10n/app_localizations.dart';
 import '../../core/constants/app_constants.dart';
 import '../../data/services/settings_service.dart';
 
@@ -13,18 +14,6 @@ class _AuthScreenState extends State<AuthScreen> {
   String _inputPassword = '';
   String? _errorMessage;
   final SettingsService _settings = SettingsService();
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
-  Future<void> _init() async {
-    await _settings.init();
-    setState(() => _isLoading = false);
-  }
 
   void _onKeyTap(String value) {
     if (_inputPassword.length < 8) {
@@ -45,11 +34,12 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _onLogin() {
+    final l10n = AppLocalizations.of(context)!;
     if (_inputPassword == _settings.getAppPassword()) {
       Navigator.pushReplacementNamed(context, '/search');
     } else {
       setState(() {
-        _errorMessage = 'パスワードが正しくありません';
+        _errorMessage = l10n.loginError;
         _inputPassword = '';
       });
     }
@@ -57,9 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -77,7 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'パスワードを入力してください',
+                  l10n.loginTitle,
                   style: Theme.of(context).textTheme.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -127,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         foregroundColor: Theme.of(context).colorScheme.onPrimary,
                         padding: const EdgeInsets.symmetric(vertical: 20),
                       ),
-                      child: const Text('ログイン'),
+                      child: Text(l10n.loginButton),
                     ),
                   ),
                 ),
@@ -137,7 +125,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     Navigator.pushNamed(context, '/admin-auth');
                   },
                   child: Text(
-                    '管理者ログイン',
+                    l10n.adminLogin,
                     style: TextStyle(
                       fontSize: 16,
                       color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
