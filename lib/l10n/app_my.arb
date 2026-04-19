@@ -1,12 +1,116 @@
 {
   "@@locale": "my",
-  "appTitle": "လုပ်ငန်းစဉ် အတည်ပြုချက် အက်ပ်",
+  "appTitle": "ポカヨケ・デジタル",
   "loginTitle": "စကားဝှက်ထည့်ပါ",
   "loginButton": "ဝင်ရောက်ရန်",
   "loginError": "စကားဝှက် မှားနေပါသည်",
+  "adminLogin": "စီမံခန့်ခွဲသူ ဝင်ရောက်ရန်",
   "searchTitle": "ဘောင်ချာနံပါတ် ထည့်ပါ",
   "searchHint": "ဘောင်ချာနံပါတ်",
   "searchButton": "ရှာဖွေရန်",
   "notFound": "ဘောင်ချာနံပါတ် ရှာမတွေ့ပါ",
-  "backButton": "နောက်သို့"
+  "backButton": "နောက်သို့",
+  "logout": "ထွက်ရန်",
+  "detailTitle": "ဘောင်ချာနံပါတ်: {ticketNumber}",
+  "@detailTitle": {
+    "placeholders": {
+      "ticketNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "description": "ဖော်ပြချက်",
+  "designImage": "ဒီဇိုင်းပုံ",
+  "adminAuthTitle": "စီမံခန့်ခွဲသူ ဝင်ရောက်ရန်",
+  "adminAuthStep1": "စကားဝှက်ထည့်ပါ",
+  "adminAuthStep2": "စီမံခန့်ခွဲသူ ကုဒ်ထည့်ပါ",
+  "adminCodeError": "စီမံခန့်ခွဲသူ ကုဒ် မှားနေပါသည်",
+  "stepOf": "အဆင့် {current}/{total}",
+  "@stepOf": {
+    "placeholders": {
+      "current": { "type": "String" },
+      "total": { "type": "String" }
+    }
+  },
+  "next": "ရှေ့သို့",
+  "adminMenu": "စီမံခန့်ခွဲမှု မီနူး",
+  "itemManagement": "ဘောင်ချာ ဒေတာ စီမံခန့်ခွဲမှု",
+  "passwordChange": "စကားဝှက် ပြောင်းလဲရန်",
+  "dataExport": "ဒေတာ ထုတ်ယူရန်",
+  "dataImport": "ဒေတာ သွင်းယူရန်",
+  "processing": "လုပ်ဆောင်နေသည်...",
+  "webNotSupported": "ဝက်ဘ်ဗားရှင်းတွင် ဤလုပ်ဆောင်ချက်ကို ပံ့ပိုးမထားပါ",
+  "exportComplete": "ထုတ်ယူခြင်း ပြီးပါပြီ",
+  "exportFailed": "ထုတ်ယူခြင်း မအောင်မြင်ပါ",
+  "importConfirmTitle": "သွင်းယူခြင်း အတည်ပြုချက်",
+  "importConfirmMessage": "သွင်းယူပါက ဘောင်ချာနံပါတ်တူသော ဒေတာများကို အစားထိုးပါမည်။\nဆက်လုပ်မလား?",
+  "importComplete": "ဒေတာ {count} ခု သွင်းယူပြီးပါပြီ",
+  "@importComplete": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "importFailed": "သွင်းယူခြင်း မအောင်မြင်ပါ",
+  "cancel": "မလုပ်တော့ပါ",
+  "itemListTitle": "ဘောင်ချာ ဒေတာ စီမံခန့်ခွဲမှု",
+  "addNew": "အသစ်ထည့်ရန်",
+  "noData": "ဒေတာ မရှိပါ\nညာဘက်အောက်ခြေမှ \"အသစ်ထည့်ရန်\" ကိုနှိပ်ပါ",
+  "ticketNumberLabel": "ဘောင်ချာနံပါတ်",
+  "deleteConfirmTitle": "ဖျက်ရန် အတည်ပြုချက်",
+  "deleteConfirmMessage": "ဘောင်ချာနံပါတ် \"{ticketNumber}\" ကို ဖျက်မလား?\nဤလုပ်ဆောင်ချက်ကို ပြန်ဖျက်၍ မရပါ။",
+  "@deleteConfirmMessage": {
+    "placeholders": {
+      "ticketNumber": { "type": "String" }
+    }
+  },
+  "delete": "ဖျက်ရန်",
+  "deleted": "ဘောင်ချာနံပါတ် \"{ticketNumber}\" ကို ဖျက်ပြီးပါပြီ",
+  "@deleted": {
+    "placeholders": {
+      "ticketNumber": { "type": "String" }
+    }
+  },
+  "edit": "ပြင်ဆင်ရန်",
+  "editTitle": "ဒေတာ ပြင်ဆင်ရန်",
+  "addTitle": "အသစ်ထည့်ရန်",
+  "descriptionLabel": "ဖော်ပြချက်",
+  "ticketNumberHint": "ဥပမာ: 01",
+  "descriptionHint": "ဥပမာ: ဘယ်အိတ်ပါ၊ ခလုတ်မပါ",
+  "imageLabel": "ပုံ",
+  "selectFromGallery": "ဓာတ်ပုံတိုက်မှ ရွေးချယ်ရန်",
+  "tapToSelectImage": "ပုံရွေးရန် နှိပ်ပါ",
+  "save": "သိမ်းဆည်းရန်",
+  "update": "အပ်ဒိတ်လုပ်ရန်",
+  "saved": "ထည့်သွင်းပြီးပါပြီ",
+  "updated": "အပ်ဒိတ်လုပ်ပြီးပါပြီ",
+  "enterTicketNumber": "ဘောင်ချာနံပါတ် ထည့်ပါ",
+  "enterDescription": "ဖော်ပြချက် ထည့်ပါ",
+  "duplicateTicketNumber": "ဘောင်ချာနံပါတ် \"{ticketNumber}\" သည် မှတ်ပုံတင်ပြီးဖြစ်သည်",
+  "@duplicateTicketNumber": {
+    "placeholders": {
+      "ticketNumber": { "type": "String" }
+    }
+  },
+  "passwordChangeTitle": "စကားဝှက် ပြောင်းလဲရန်",
+  "appPasswordSection": "သာမန် စကားဝှက် (ဝန်ထမ်းသုံး)",
+  "adminCodeSection": "စီမံခန့်ခွဲသူ ကုဒ်",
+  "currentPassword": "လက်ရှိ စကားဝှက်",
+  "newPassword": "စကားဝှက် အသစ်",
+  "confirmPassword": "စကားဝှက် အသစ် (အတည်ပြုရန်)",
+  "currentAdminCode": "လက်ရှိ စီမံခန့်ခွဲသူ ကုဒ်",
+  "newAdminCode": "စီမံခန့်ခွဲသူ ကုဒ် အသစ်",
+  "confirmAdminCode": "စီမံခန့်ခွဲသူ ကုဒ် အသစ် (အတည်ပြုရန်)",
+  "saveChanges": "ပြောင်းလဲမှုကို သိမ်းဆည်းရန်",
+  "wrongCurrentPassword": "လက်ရှိ စကားဝှက် မှားနေပါသည်",
+  "wrongCurrentAdminCode": "လက်ရှိ စီမံခန့်ခွဲသူ ကုဒ် မှားနေပါသည်",
+  "enterNewPassword": "စကားဝှက် အသစ် ထည့်ပါ",
+  "enterNewAdminCode": "စီမံခန့်ခွဲသူ ကုဒ် အသစ် ထည့်ပါ",
+  "passwordMismatch": "စကားဝှက် အသစ် မတူညီပါ",
+  "adminCodeMismatch": "စီမံခန့်ခွဲသူ ကုဒ် အသစ် မတူညီပါ",
+  "passwordChanged": "စကားဝှက် ပြောင်းလဲပြီးပါပြီ",
+  "adminCodeChanged": "စီမံခန့်ခွဲသူ ကုဒ် ပြောင်းလဲပြီးပါပြီ",
+  "languageSettings": "ဘာသာစကား ရွေးချယ်ရန်",
+  "japanese": "ဂျပန်ဘာသာ",
+  "myanmar": "မြန်မာဘာသာ",
+  "clearButton": "C"
 }

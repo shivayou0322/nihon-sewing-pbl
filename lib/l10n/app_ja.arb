@@ -1,12 +1,116 @@
 {
   "@@locale": "ja",
-  "appTitle": "工程確認アプリ",
+  "appTitle": "ポカヨケ・デジタル",
   "loginTitle": "パスワードを入力してください",
   "loginButton": "ログイン",
   "loginError": "パスワードが正しくありません",
+  "adminLogin": "管理者ログイン",
   "searchTitle": "伝票番号を入力",
   "searchHint": "伝票番号",
   "searchButton": "検索",
   "notFound": "該当する伝票番号が見つかりません",
-  "backButton": "戻る"
+  "backButton": "戻る",
+  "logout": "ログアウト",
+  "detailTitle": "伝票番号: {ticketNumber}",
+  "@detailTitle": {
+    "placeholders": {
+      "ticketNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "description": "説明",
+  "designImage": "デザイン画像",
+  "adminAuthTitle": "管理者ログイン",
+  "adminAuthStep1": "パスワードを入力",
+  "adminAuthStep2": "管理者コードを入力",
+  "adminCodeError": "管理者コードが正しくありません",
+  "stepOf": "ステップ {current}/{total}",
+  "@stepOf": {
+    "placeholders": {
+      "current": { "type": "String" },
+      "total": { "type": "String" }
+    }
+  },
+  "next": "次へ",
+  "adminMenu": "管理メニュー",
+  "itemManagement": "伝票データ管理",
+  "passwordChange": "パスワード変更",
+  "dataExport": "データエクスポート",
+  "dataImport": "データインポート",
+  "processing": "処理中...",
+  "webNotSupported": "Web版ではこの機能はサポートされていません",
+  "exportComplete": "エクスポートが完了しました",
+  "exportFailed": "エクスポートに失敗しました",
+  "importConfirmTitle": "インポート確認",
+  "importConfirmMessage": "インポートすると、同じ伝票番号のデータは上書きされます。\n続けますか？",
+  "importComplete": "{count}件のデータをインポートしました",
+  "@importComplete": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "importFailed": "インポートに失敗しました",
+  "cancel": "キャンセル",
+  "itemListTitle": "伝票データ管理",
+  "addNew": "新規追加",
+  "noData": "データがありません\n右下の「新規追加」から追加してください",
+  "ticketNumberLabel": "伝票番号",
+  "deleteConfirmTitle": "削除確認",
+  "deleteConfirmMessage": "伝票番号「{ticketNumber}」を削除しますか？\nこの操作は取り消せません。",
+  "@deleteConfirmMessage": {
+    "placeholders": {
+      "ticketNumber": { "type": "String" }
+    }
+  },
+  "delete": "削除",
+  "deleted": "伝票番号「{ticketNumber}」を削除しました",
+  "@deleted": {
+    "placeholders": {
+      "ticketNumber": { "type": "String" }
+    }
+  },
+  "edit": "編集",
+  "editTitle": "データ編集",
+  "addTitle": "新規追加",
+  "descriptionLabel": "説明文",
+  "ticketNumberHint": "例: 01",
+  "descriptionHint": "例: 左ポケットあり、ボタンなし",
+  "imageLabel": "画像",
+  "selectFromGallery": "ギャラリーから選択",
+  "tapToSelectImage": "タップして画像を選択",
+  "save": "保存",
+  "update": "更新",
+  "saved": "追加しました",
+  "updated": "更新しました",
+  "enterTicketNumber": "伝票番号を入力してください",
+  "enterDescription": "説明文を入力してください",
+  "duplicateTicketNumber": "伝票番号「{ticketNumber}」は既に登録されています",
+  "@duplicateTicketNumber": {
+    "placeholders": {
+      "ticketNumber": { "type": "String" }
+    }
+  },
+  "passwordChangeTitle": "パスワード変更",
+  "appPasswordSection": "通常パスワード（従業員用）",
+  "adminCodeSection": "管理者コード",
+  "currentPassword": "現在のパスワード",
+  "newPassword": "新しいパスワード",
+  "confirmPassword": "新しいパスワード（確認）",
+  "currentAdminCode": "現在の管理者コード",
+  "newAdminCode": "新しい管理者コード",
+  "confirmAdminCode": "新しい管理者コード（確認）",
+  "saveChanges": "変更を保存",
+  "wrongCurrentPassword": "現在のパスワードが正しくありません",
+  "wrongCurrentAdminCode": "現在の管理者コードが正しくありません",
+  "enterNewPassword": "新しいパスワードを入力してください",
+  "enterNewAdminCode": "新しい管理者コードを入力してください",
+  "passwordMismatch": "新しいパスワードが一致しません",
+  "adminCodeMismatch": "新しい管理者コードが一致しません",
+  "passwordChanged": "パスワードを変更しました",
+  "adminCodeChanged": "管理者コードを変更しました",
+  "languageSettings": "言語設定",
+  "japanese": "日本語",
+  "myanmar": "ミャンマー語",
+  "clearButton": "C"
 }
