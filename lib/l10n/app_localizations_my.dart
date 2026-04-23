@@ -255,7 +255,7 @@ class AppLocalizationsMy extends AppLocalizations {
   String get languageSettings => 'ဘာသာစကား ရွေးချယ်ရန်';
 
   @override
-  String get japanese => 'ဂျပန်ဘာသာ';
+  String get japanese => '日本語 (ဂျပန်ဘာသာ)';
 
   @override
   String get myanmar => 'မြန်မာဘာသာ';
