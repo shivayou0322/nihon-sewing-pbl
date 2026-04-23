@@ -45,6 +45,45 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
+  Future<void> _showLanguageDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+    final currentLocale = _settings.getLocale().languageCode;
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.languageSettings),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(
+                currentLocale == 'ja' ? Icons.radio_button_checked : Icons.radio_button_off,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              title: Text(l10n.japanese, style: const TextStyle(fontSize: 20)),
+              onTap: () async {
+                await _settings.setLocale('ja');
+                if (mounted) Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                currentLocale == 'my' ? Icons.radio_button_checked : Icons.radio_button_off,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              title: Text(l10n.myanmar, style: const TextStyle(fontSize: 20)),
+              onTap: () async {
+                await _settings.setLocale('my');
+                if (mounted) Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -52,89 +91,104 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.lock_outline,
-                  size: 64,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  l10n.loginTitle,
-                  style: Theme.of(context).textTheme.headlineLarge,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 40),
-                Container(
-                  width: double.infinity,
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: _errorMessage != null
-                          ? Theme.of(context).colorScheme.error
-                          : Theme.of(context).colorScheme.outline,
-                      width: 2,
-                    ),
-                  ),
-                  child: Text(
-                    _inputPassword.isEmpty ? '' : '● ' * _inputPassword.length,
-                    style: const TextStyle(fontSize: 32, letterSpacing: 8),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                if (_errorMessage != null) ...[
-                  const SizedBox(height: 12),
-                  Text(
-                    _errorMessage!,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).colorScheme.error,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 32),
-                _buildKeypad(),
-                const SizedBox(height: 24),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _inputPassword.isNotEmpty ? _onLogin : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                      ),
-                      child: Text(l10n.loginButton),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/admin-auth');
-                  },
-                  child: Text(
-                    l10n.adminLogin,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-                    ),
-                  ),
-                ),
-              ],
+        child: Stack(
+          children: [
+            // 右上に言語切り替えボタン
+            Positioned(
+              top: 8,
+              right: 8,
+              child: IconButton(
+                icon: const Icon(Icons.language, size: 32),
+                onPressed: _showLanguageDialog,
+                tooltip: l10n.languageSettings,
+              ),
             ),
-          ),
+            // メインコンテンツ
+            Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.lock_outline,
+                      size: 64,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.loginTitle,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
+                    Container(
+                      width: double.infinity,
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: _errorMessage != null
+                              ? Theme.of(context).colorScheme.error
+                              : Theme.of(context).colorScheme.outline,
+                          width: 2,
+                        ),
+                      ),
+                      child: Text(
+                        _inputPassword.isEmpty ? '' : '● ' * _inputPassword.length,
+                        style: const TextStyle(fontSize: 32, letterSpacing: 8),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    if (_errorMessage != null) ...[
+                      const SizedBox(height: 12),
+                      Text(
+                        _errorMessage!,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).colorScheme.error,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 32),
+                    _buildKeypad(),
+                    const SizedBox(height: 24),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _inputPassword.isNotEmpty ? _onLogin : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                          ),
+                          child: Text(l10n.loginButton),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/admin-auth');
+                      },
+                      child: Text(
+                        l10n.adminLogin,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

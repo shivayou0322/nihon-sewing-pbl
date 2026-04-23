@@ -569,7 +569,7 @@ abstract class AppLocalizations {
   /// No description provided for @myanmar.
   ///
   /// In ja, this message translates to:
-  /// **'ミャンマー語'**
+  /// **'ミャンマー語 (မြန်မာဘာသာ)'**
   String get myanmar;
 
   /// No description provided for @clearButton.

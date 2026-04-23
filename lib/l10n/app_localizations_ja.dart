@@ -255,7 +255,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get japanese => '日本語';
 
   @override
-  String get myanmar => 'ミャンマー語';
+  String get myanmar => 'ミャンマー語 (မြန်မာဘာသာ)';
 
   @override
   String get clearButton => 'C';
